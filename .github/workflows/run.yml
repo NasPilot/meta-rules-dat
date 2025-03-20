@@ -214,12 +214,6 @@ jobs:
           echo "openai.com" >> ./data-lite/openai
           go run ./ --datapath=./data-lite --outputname geosite-lite.dat
 
-          # 删除这个重复的编译命令
-          # go run ./ --datapath=./data-lite --outputname geosite-lite.dat
-          
-          # 只需要保留一次编译
-          go run ./ --datapath=./data-lite --outputname geosite-lite.dat
-
       - name: Get geoip.dat relative files
         run: |
           wget -O geoip-lite.dat https://github.com/xishang0128/geoip/raw/release/geoip.dat
