@@ -268,8 +268,7 @@ jobs:
           mkdir -p ./publish/
           wget https://raw.githubusercontent.com/xishang0128/geoip/release/Country.mmdb -O ./publish/country-lite.mmdb
           wget https://raw.githubusercontent.com/Loyalsoldier/geoip/release/Country.mmdb -O ./publish/country.mmdb
-          # 删除这一行
-          # wget https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb -O ./publish/GeoLite2-ASN.mmdb
+          wget https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb -O ./publish/GeoLite2-ASN.mmdb
           install -Dp ./geoip-lite.dat ./publish/
           install -Dp ./geoip.dat ./publish/
           install -Dp ./custom/publish/geosite.dat ./publish/
