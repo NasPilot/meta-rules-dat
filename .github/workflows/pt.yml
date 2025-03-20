@@ -16,8 +16,6 @@ jobs:
         run: |
           # Tracker 域名列表
           echo "TRACKER_URL=https://raw.githubusercontent.com/NasPilot/domains/refs/heads/domains/Tracker.list" >> $GITHUB_ENV
-          echo "PRIVATE_TRACKER_URL=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PrivateTracker/PrivateTracker.list" >> $GITHUB_ENV
-          echo "TRACKERS_COLLECTION_URL=https://gitea.com/XIU2/TrackersListCollection/raw/branch/master/all.txt" >> $GITHUB_ENV
 
       - name: Generate PT category rule-set
         env:
