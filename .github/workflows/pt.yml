@@ -1,0 +1,63 @@
+name: Generate PT Category Rules
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天运行
+  workflow_dispatch:      # 允许手动触发
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install sing-box
+        run: |
+          curl -Lo sing-box.tar.gz https://github.com/SagerNet/sing-box/releases/latest/download/sing-box-linux-amd64.tar.gz
+          tar -xzf sing-box.tar.gz
+          sudo mv sing-box-*/sing-box /usr/local/bin/
+          rm -rf sing-box-* sing-box.tar.gz
+
+      - name: Generate PT category rule-set
+        run: |
+          mkdir -p rules
+          curl -sSL "https://raw.githubusercontent.com/NasPilot/domains/refs/heads/domains/Tracker.list" | \
+          sed '/^\s*#/d' | \
+          sed 's/DOMAIN-SUFFIX,//g' | \
+          sort -u | \
+          awk 'BEGIN {
+              print "{"
+              print "  \"version\": 1,"
+              print "  \"rules\": ["
+              print "    {"
+              print "      \"domain_suffix\": ["
+          }
+          NR==1 {
+              printf "        \"%s\"", $0
+          }
+          NR>1 {
+              printf ",\n        \"%s\"", $0
+          }
+          END {
+              print "\n      ]"
+              print "    }"
+              print "  ]"
+              print "}"
+          }' > rules/category-pt.json
+          sing-box rule-set compile rules/category-pt.json -o rules/category-pt.srs
+
+      - name: Checkout sing branch
+        run: |
+          git fetch
+          git checkout sing
+          mkdir -p geo/geosite
+          mv rules/category-pt.srs geo/geosite/
+          
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add geo/geosite/category-pt.srs
+          git commit -m "Update PT category rules" || exit 0
+          git push origin sing
