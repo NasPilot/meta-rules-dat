@@ -166,6 +166,9 @@ jobs:
           echo "japronx.tv" >> ./community/data/category-pt
           echo "japronx.net" >> ./community/data/category-pt
           echo "japronx.vip" >> ./community/data/category-pt
+          
+          # Add PT sites from Dracay/domains Tracker.list
+          curl -sSL https://raw.githubusercontent.com/Dracay/domains/domains/Tracker.list | sed 's/DOMAIN-SUFFIX,//g' | sed '/^#/d' | sed '/^$/d' >> ./community/data/category-pt
           curl -sSL https://github.com/blackmatrix7/ios_rule_script/raw/master/rule/Clash/BlockHttpDNS/BlockHttpDNS.list | ${{ env.SED }} > ./community/data/httpdns
 
       - name: Build geosite.dat file
