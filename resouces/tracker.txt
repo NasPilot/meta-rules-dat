@@ -1,0 +1,7 @@
+# PT Tracker domains
+# Add your custom PT tracker domains here
+# One domain per line
+
+# Example domains (remove these and add your own):
+# example-tracker.com
+# my-private-tracker.net
